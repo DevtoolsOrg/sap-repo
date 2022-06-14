@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: worker
+  name: worker
+  namespace: vote
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+      - image: ghcr.io/plintron-microservices-org/worker
+        name: worker
+      env:
+      - name: GITHUB_USERNAME
+        valueFrom:
+        secretKeyRef:
+          name: secret
+          key: github-username
+      - name: GITHUB_PASSWORD
+        valueFrom: 
+        secretKeyRef:
+         name: secret
+         key: github-password
